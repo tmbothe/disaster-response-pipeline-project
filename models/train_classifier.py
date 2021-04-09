@@ -17,7 +17,7 @@ from sqlalchemy import create_engine
 import pickle
 import warnings
 warnings.filterwarnings('always', 'ResourceWarning') 
-from data import process_data
+from data.process_data import load_data
 
 
 def load_data(database_filepath):
