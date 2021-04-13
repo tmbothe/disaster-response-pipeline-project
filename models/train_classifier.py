@@ -12,7 +12,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.naive_bayes import MultinomialNB
-from nltk.corpus import stopwords
 from sqlalchemy import create_engine
 import pickle
 import warnings
@@ -48,7 +47,6 @@ def tokenize(text):
         text ([string]): [text that needs to be tokenized]
     """
     tokens = word_tokenize(text)
-    tokens = [w for w in tokens if w not in stopwords.words('english')]
     lemmatizer = WordNetLemmatizer()
 
     clean_tokens = []
