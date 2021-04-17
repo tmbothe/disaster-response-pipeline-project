@@ -44,7 +44,7 @@ def clean_data(df):
         categories[column].unique()) == 1]
     categories = categories.drop(one_value_columns, axis=1)
 
-    df.drop(columns=['categories'], index=1, inplace=True)
+    df.drop(columns=['categories', 'original'], index=1, inplace=True)
 
     df = pd.concat([df, categories], axis=1)
 

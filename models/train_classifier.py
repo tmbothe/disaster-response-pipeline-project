@@ -31,7 +31,7 @@ def load_data(database_filepath):
     engine = create_engine('sqlite:///'+database_filepath)
     table_name = database_filepath.split('/')[-1]
     print(f'table name {table_name}')
-    df = pd.read_sql_table(database_filepath, con=engine)
+    df = pd.read_sql_table(table_name, con=engine)
 
     X = df.message
     Y = df.iloc[:, 4:]
@@ -57,7 +57,7 @@ def tokenize(text):
     return clean_tokens
 
 
-def build_model():
+def build_model(is_gridSearch=False):
     """This function builds a model to successively tokenize, transform and fit data
 
     Returns:
@@ -68,6 +68,15 @@ def build_model():
         ('tfidf', TfidfTransformer()),
         ('clf', MultiOutputClassifier(AdaBoostClassifier()))
     ])
+
+    if is_gridSearch:
+
+        parameters = {
+            'tfidf__use_idf': (True, False),
+            'clf__estimator__n_estimators': [100, 200],
+            'clf__estimator__learning_rate': [0.001, 0.01, 0.1, 0.2, 0.5],
+        }
+        pipeline = GridSearchCV(pipeline, param_grid=parameters)
 
     return pipeline
 
